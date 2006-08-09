@@ -36,7 +36,7 @@ set CMD_LINE_ARGS=
 set DEBUG_OPTIONS=
 
 :SET_ARGS
-if ""%1""=="""" goto DONE_SET_ARGS
+if "%1"=="" goto DONE_SET_ARGS
 if "%1"=="-debug" goto SET_DEBUG
 set CMD_LINE_ARGS=%CMD_LINE_ARGS% %1
 shift
@@ -51,7 +51,7 @@ goto SET_ARGS
 
 setlocal
 
-set CLASSPATH=%MONITOR_BIN_HOME%..\lib\wsmonitor.jar;%MONITOR_BIN_HOME%..\lib\jsr173_api.jar;%MONITOR_BIN_HOME%..\lib\sjsxp.jar
+set CLASSPATH=%MONITOR_BIN_HOME%..\lib\wsmonitor.jar;%MONITOR_BIN_HOME%..\lib\jsr173_api.jar;%MONITOR_BIN_HOME%..\lib\sjsxp.jar;%MONITOR_BIN_HOME%..\lib\args4j-2.0.6.jar;
 
 %JAVA_HOME%\bin\java %DEBUG_OPTIONS% -cp "%CLASSPATH%" com.sun.tools.ws.wsmonitor.Main %CMD_LINE_ARGS%
 

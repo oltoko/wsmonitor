@@ -28,11 +28,14 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
+import org.kohsuke.args4j.CmdLineParser;
+
 /**
  * @author Arun Gupta
  */
 public class Main extends JFrame {
     static final int FRAME_WIDTH = 1200;
+    static MainOptions options;
 
     private Main(List<ConnectionConfiguration> monitorConfiguration) {
         JTabbedPane mainPane = new JTabbedPane();
@@ -56,8 +59,11 @@ public class Main extends JFrame {
     public static void main(String[] args) {
         try {
             MonitorConfiguration monitorConfiguration;
-            
-            if (args.length != 1) {
+            options = new MainOptions();
+            CmdLineParser argsParser = new CmdLineParser(options);
+            argsParser.parseArgument(args);
+
+            if (options.getArguments().isEmpty()) {
                 System.err.println("Missing config file.");
                 monitorConfiguration = usage();
             } else {
@@ -82,10 +88,10 @@ public class Main extends JFrame {
         cc.setTargetPort("8080");
         cc.setDescription("Default");
         mc.add(cc);
-        
+
         System.err.println("Usage: com.sun.tools.ws.wsmonitor.Main config.xml");
         System.err.println("       Using default 4040 --> localhost:8080");
-        
+
         return mc;
     }
 }
