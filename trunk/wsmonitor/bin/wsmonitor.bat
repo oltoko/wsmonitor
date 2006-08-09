@@ -1,4 +1,4 @@
-@echo off
+@echo on
 
 REM
 REM The contents of this file are subject to the terms
@@ -33,10 +33,17 @@ goto END
 
 rem Get command line arguments and save them
 set CMD_LINE_ARGS=
+set DEBUG_OPTIONS=
 
 :SET_ARGS
 if ""%1""=="""" goto DONE_SET_ARGS
+if "%1"=="-debug" goto SET_DEBUG
 set CMD_LINE_ARGS=%CMD_LINE_ARGS% %1
+shift
+goto SET_ARGS
+
+:SET_DEBUG
+set DEBUG_OPTIONS=-Xdebug -Xrunjdwp:transport=dt_socket,server=y,address=8000
 shift
 goto SET_ARGS
 
@@ -44,9 +51,9 @@ goto SET_ARGS
 
 setlocal
 
-set CLASSPATH=%MONITOR_BIN_HOME%\..\lib\wsmonitor.jar;%MONITOR_BIN_HOME%\..\lib\jsr173_api.jar;%MONITOR_BIN_HOME%\..\lib\sjsxp.jar
+set CLASSPATH=%MONITOR_BIN_HOME%..\lib\wsmonitor.jar;%MONITOR_BIN_HOME%..\lib\jsr173_api.jar;%MONITOR_BIN_HOME%..\lib\sjsxp.jar
 
-%JAVA_HOME%\bin\java -cp "%CLASSPATH%" com.sun.tools.ws.wsmonitor.Main %CMD_LINE_ARGS%
+%JAVA_HOME%\bin\java %DEBUG_OPTIONS% -cp "%CLASSPATH%" com.sun.tools.ws.wsmonitor.Main %CMD_LINE_ARGS%
 
 endlocal
 
