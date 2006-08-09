@@ -103,7 +103,7 @@ public class PrettyPrinter {
             baos2.reset();
         }
 
-        Dump[] dumpArray = (Dump[]) list.toArray(new Dump[0]);
+        Dump[] dumpArray = list.toArray(new Dump[0]);
         StringBuffer buffer = new StringBuffer();
         for (int i = 0; i < dumpArray.length; i++) {
             buffer.append(dumpArray[i].toString() + "\n");
@@ -112,7 +112,7 @@ public class PrettyPrinter {
         return buffer.toString();
     }
 
-    static class Dump {
+    static final class Dump {
         private String address;
         private String data;
         private String text;
