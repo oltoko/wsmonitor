@@ -1,4 +1,4 @@
-@echo on
+@echo off
 
 REM
 REM The contents of this file are subject to the terms
