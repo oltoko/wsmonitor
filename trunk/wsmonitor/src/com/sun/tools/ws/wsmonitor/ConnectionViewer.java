@@ -53,12 +53,10 @@ public class ConnectionViewer {
     private ConnectionModel connectionModel = null;
     private JSplitPane soapPane = null;
     private JSplitPane headersPane = null;
-    private JTabbedPane mainPane = null;
-    private Listener listener = null;
 
 
     public ConnectionViewer(JTabbedPane mainPane, ConnectionConfiguration connConfig) {
-        this.mainPane = mainPane;
+        JTabbedPane mainPane1 = mainPane;
         JPanel panel = new JPanel(new BorderLayout());
 
         JPanel topPanel = new JPanel(new GridLayout(1,3));
@@ -113,12 +111,12 @@ public class ConnectionViewer {
         mainPane.addTab(connConfig.getName(), null, panel, connConfig.getDescription());
     }
 
-    void initColumnSizes(JTable table) {
+    private void initColumnSizes(JTable table) {
         ConnectionModel model = (ConnectionModel) table.getModel();
-        TableColumn column = null;
-        Component comp = null;
-        int headerWidth = 0;
-        int cellWidth = 0;
+        TableColumn column;
+        Component comp;
+        int headerWidth;
+        int cellWidth;
         String[] longValues = model.columnNames;
         TableCellRenderer headerRenderer =
                 table.getTableHeader().getDefaultRenderer();
@@ -178,12 +176,12 @@ public class ConnectionViewer {
         updateResponseUI(cm);
     }
 
-    void updateHeaderAndBodyUI(ConnectionMetadata cm) {
+    private void updateHeaderAndBodyUI(ConnectionMetadata cm) {
         updateRequestUI(cm);
         updateResponseUI(cm);
     }
     
-    public void updateRequestUI(ConnectionMetadata cm) {
+    private void updateRequestUI(ConnectionMetadata cm) {
         if (cm == null)
             return;
 
@@ -215,15 +213,14 @@ public class ConnectionViewer {
         }
     }
     
-    public void updateResponseUI(ConnectionMetadata cm) {
+    private void updateResponseUI(ConnectionMetadata cm) {
         if (cm == null)
             return;
         
         Logger logger = Logger.getAnonymousLogger();
 
         // response headers panel
-        JViewport tmp = (JViewport) ((JScrollPane) headersPane.getLeftComponent()).getComponent(0);
-        tmp = (JViewport) ((JScrollPane) headersPane.getRightComponent()).getComponent(0);
+        JViewport tmp = (JViewport) ((JScrollPane) headersPane.getRightComponent()).getComponent(0);
         JTextArea responseHeadersText = (JTextArea) tmp.getView();
         responseHeadersText.setText(cm.getResponseHeader());
         if (logger.isLoggable(CONFIG)) {
@@ -234,7 +231,7 @@ public class ConnectionViewer {
         // SOAP response panel
         tmp = (JViewport) ((JScrollPane) soapPane.getRightComponent()).getComponent(0);
         JTextArea responseMessageText = (JTextArea) tmp.getView();
-        String body = null;
+        String body;
         if (cm.getResponseEncoding().equals(XML_ENCODING))
             body = PrettyPrinter.convertToXML(cm.getResponseBody());
         else
@@ -247,7 +244,7 @@ public class ConnectionViewer {
     }
 
     public void addListener(Listener l) {
-        this.listener = l;
+        Listener listener = l;
     }
 
     public ConnectionModel getConnectionModel() {

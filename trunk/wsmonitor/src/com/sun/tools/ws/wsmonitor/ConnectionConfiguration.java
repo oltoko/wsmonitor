@@ -24,7 +24,7 @@ package com.sun.tools.ws.wsmonitor;
 /**
  * @author Arun Gupta
  */
-public class ConnectionConfiguration {
+class ConnectionConfiguration {
     private String name;
     private String description;
     private String listenPort;

@@ -31,8 +31,8 @@ import java.text.SimpleDateFormat;
 public class Listener extends Thread {
     protected final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
-    ConnectionConfiguration connConfig = null;
-    ConnectionViewer connViewer = null;
+    private ConnectionConfiguration connConfig = null;
+    private ConnectionViewer connViewer = null;
 
     public Listener(ConnectionViewer v, ConnectionConfiguration connConfig) {
         this.connConfig = connConfig;

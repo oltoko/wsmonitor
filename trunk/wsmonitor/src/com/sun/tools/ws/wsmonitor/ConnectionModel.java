@@ -30,10 +30,10 @@ import javax.swing.table.AbstractTableModel;
  * @author Arun Gupta
  */
 public class ConnectionModel extends AbstractTableModel {
-    protected int numRows = 0;
-    protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss.SSS yyyy-MM-dd");
+    private int numRows = 0;
+    static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss.SSS yyyy-MM-dd");
 
-    protected String[] columnNames = {
+    String[] columnNames = {
             "Id",
             "Time Sent",
             "Request Encoding",
@@ -43,7 +43,7 @@ public class ConnectionModel extends AbstractTableModel {
             "Response Preamble",
             "Response Length"
     };
-    Vector<ConnectionMetadata> data = null;
+    private Vector<ConnectionMetadata> data = null;
 
     public ConnectionModel() {
         data = new Vector<ConnectionMetadata>();

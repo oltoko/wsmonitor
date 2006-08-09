@@ -50,22 +50,6 @@ public class ConnectionMetadata {
         this.id = String.valueOf(++dataId);
     }
 
-    public ConnectionMetadata(Date time, String requestEncoding, String requestPreamble, String requestContentLength, String responseEncoding, String responsePreamble, String responseContentLength) {
-        this(DATE_FORMAT.format(time), requestEncoding, requestPreamble, requestContentLength, responseEncoding,
-             responsePreamble, responseContentLength);
-    }
-
-    public ConnectionMetadata(String time, String requestEncoding, String requestPreamble, String requestContentLength, String responseEncoding, String responsePreamble, String responseContentLength) {
-        this();
-        this.time = time;
-        this.requestEncoding = requestEncoding;
-        this.requestPreamble = requestPreamble;
-        this.requestContentLength = requestContentLength;
-        this.responseEncoding = responseEncoding;
-        this.responsePreamble = responsePreamble;
-        this.responseContentLength = responseContentLength;
-    }
-
     public String getId() {
         return id;
     }
