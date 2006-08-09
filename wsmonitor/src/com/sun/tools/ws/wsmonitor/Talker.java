@@ -37,7 +37,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.Calendar;
 
 import static com.sun.tools.ws.wsmonitor.ConnectionMetadata.FAST_ENCODING;
 import static com.sun.tools.ws.wsmonitor.ConnectionMetadata.XML_ENCODING;
@@ -84,7 +83,7 @@ public class Talker extends Thread {
 
             HttpURLConnection targetServer;
             try {
-                System.out.println("Connecting to: " + connConfig.getTargetHost() + ":" + connConfig.getTargetPort() + fileName);
+                System.out.println(new Date() + ": Connecting to: " + connConfig.getTargetHost() + ":" + connConfig.getTargetPort() + fileName);
 
                 URL url = new URL("http", connConfig.getTargetHost(), Integer.parseInt(connConfig.getTargetPort()),
                                   fileName);
@@ -434,7 +433,8 @@ public class Talker extends Thread {
     }
 
     private void log(String msg) {
-        System.out.println(new Date() + ": " + msg);
+        if (Main.options.isVerbose())
+            System.out.println(new Date() + ": " + msg);
     }
 }
 
