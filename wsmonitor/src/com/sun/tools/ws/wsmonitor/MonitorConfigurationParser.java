@@ -53,7 +53,7 @@ public class MonitorConfigurationParser {
         }
     }
 
-    public MonitorConfiguration parseConfiguration(XMLStreamReader reader)
+    private MonitorConfiguration parseConfiguration(XMLStreamReader reader)
             throws XMLStreamException {
         MonitorConfiguration monitorConfiguration = new MonitorConfiguration();
 
@@ -85,7 +85,7 @@ public class MonitorConfigurationParser {
         return monitorConfiguration;
     }
 
-    ConnectionConfiguration parseConnectionConfiguration(XMLStreamReader reader)
+    private ConnectionConfiguration parseConnectionConfiguration(XMLStreamReader reader)
             throws XMLStreamException {
         ConnectionConfiguration connectionConfiguration = new ConnectionConfiguration();
 

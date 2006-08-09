@@ -27,7 +27,7 @@ import javax.xml.namespace.QName;
  * @author Arun Gupta
  */
 public class Constants {
-    public static final String NS_NAME = "http://java.sun.com/xml/ns/jax-ws/ri/config/monitor";
+    private static final String NS_NAME = "http://java.sun.com/xml/ns/jax-ws/ri/config/monitor";
     public static final QName QNAME_MONITOR = new QName(NS_NAME, "monitor");
     public static final QName QNAME_CONNECTION = new QName(NS_NAME, "connection");
     public static final String NAME = "name";

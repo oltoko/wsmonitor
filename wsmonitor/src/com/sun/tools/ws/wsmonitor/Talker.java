@@ -37,6 +37,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.Calendar;
 
 import static com.sun.tools.ws.wsmonitor.ConnectionMetadata.FAST_ENCODING;
 import static com.sun.tools.ws.wsmonitor.ConnectionMetadata.XML_ENCODING;
@@ -47,7 +48,6 @@ import static com.sun.tools.ws.wsmonitor.ConnectionMetadata.XML_ENCODING;
 public class Talker extends Thread {
     private Socket socket = null;
     private ConnectionConfiguration connConfig = null;
-    private final int BUFFER_SIZE = 1024;
     private int contentLength = 0;
     private Hashtable<String, String> headersTable = new Hashtable<String, String>();
 
@@ -82,10 +82,9 @@ public class Talker extends Thread {
             metadata.setRequestBody(requestMessage);
             connViewer.updateRequest(metadata);
 
-            HttpURLConnection targetServer = null;
+            HttpURLConnection targetServer;
             try {
-                System.out.println(
-                        "Connecting to: " + connConfig.getTargetHost() + ":" + connConfig.getTargetPort() + fileName);
+                System.out.println("Connecting to: " + connConfig.getTargetHost() + ":" + connConfig.getTargetPort() + fileName);
 
                 URL url = new URL("http", connConfig.getTargetHost(), Integer.parseInt(connConfig.getTargetPort()),
                                   fileName);
@@ -112,7 +111,7 @@ public class Talker extends Thread {
 
                 // process headers from "target"
                 String responseHeader = processResponseHeaders(targetServer);
-                metadata.setResponseHeader(responseHeader.toString());
+                metadata.setResponseHeader(responseHeader);
 
                 // write response header to "host"
                 toHost.write(responseHeader.concat("\n").getBytes());
@@ -156,7 +155,7 @@ public class Talker extends Thread {
     }
 
     protected String processRequestHeaders(InputStream is) throws IOException {
-        System.out.println("***** Processing request headers");
+        log("***** Processing request headers");
 
         ArrayList<String> list = new ArrayList<String>();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -195,7 +194,6 @@ public class Talker extends Thread {
                     }
                     list.add(baos.toString());
                     baos.reset();
-                    continue;
                 }
             }
         }
@@ -238,7 +236,7 @@ public class Talker extends Thread {
     }
 
     protected String processResponseHeaders(HttpURLConnection targetServer) throws Exception {
-        System.out.println("***** Processing response headers");
+        log("***** Processing response headers");
 
         // read response headers from "target"
         Map<String, List<String>> responseHeaders = targetServer.getHeaderFields();
@@ -249,7 +247,7 @@ public class Talker extends Thread {
         headerList.add(
                 protocolVersion + " " + targetServer.getResponseCode() + " " + targetServer.getResponseMessage());
         for (String headerKey : responseHeaders.keySet()) {
-            String header = new String();
+            String header = "";
             if (headerKey != null) {
                 if (headerKey.toLowerCase().equals("Transfer-Encoding".toLowerCase())) {
                     continue;
@@ -269,11 +267,11 @@ public class Talker extends Thread {
         }
 
         // collect the response headers
-        String[] header = (String[]) headerList.toArray(new String[0]);
+        String[] header = headerList.toArray(new String[0]);
         metadata.setResponsePreamble(header[0]);
         StringBuffer responseHeader = new StringBuffer();
-        for (int i = 0; i < header.length; i++)
-            responseHeader.append(header[i] + "\r\n");
+        for (String h : header)
+            responseHeader.append(h + "\r\n");
 
         return responseHeader.toString();
     }
@@ -286,14 +284,14 @@ public class Talker extends Thread {
      * @throws IOException
      */
     protected byte[] processRequestBody(InputStream is) throws IOException {
-        System.out.println("***** Processing request body");
+        log("***** Processing request body");
 
         if (is == null || contentLength == 0)
             return new byte[0];
 
         byte[] oneByte = new byte[1];
         int totalRead = 0;
-        int read = 0;
+        int read;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         while (true) {
             read = is.read(oneByte);
@@ -314,7 +312,7 @@ public class Talker extends Thread {
      * @throws IOException
      */
     protected byte[] processResponseBody(InputStream istream) throws IOException {
-        System.out.println("***** Processing response headers");
+        log("***** Processing response body");
 
         if (istream == null)
             return new byte[0];
@@ -336,7 +334,7 @@ public class Talker extends Thread {
      */
     private void processContentLength(String line) {
         StringTokenizer st = new StringTokenizer(line);
-        String token = new String();
+        String token = "";
         while (st.hasMoreTokens()) {
             token = st.nextToken();
         }
@@ -402,9 +400,7 @@ public class Talker extends Thread {
             } else if (
                     statusCode < 200 || (statusCode >= 303 && statusCode < 500)) {
                 throw new MonitorTransportException("http.status.code",
-                                                    new Object[]{
-                                                            new Integer(statusCode),
-                                                            getStatusMessage(httpConnection)});
+                                                    statusCode, getStatusMessage(httpConnection));
             } else if (statusCode >= 500) {
                 isFailure = true;
             }
@@ -435,6 +431,10 @@ public class Talker extends Thread {
                 message += " - Location: " + location;
         }
         return message;
+    }
+
+    private void log(String msg) {
+        System.out.println(new Date() + ": " + msg);
     }
 }
 

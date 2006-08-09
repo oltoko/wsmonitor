@@ -32,11 +32,10 @@ import javax.swing.JTabbedPane;
  * @author Arun Gupta
  */
 public class Main extends JFrame {
-    private static JTabbedPane mainPane = null;
     static final int FRAME_WIDTH = 1200;
 
-    public Main(List<ConnectionConfiguration> monitorConfiguration) {
-        mainPane = new JTabbedPane();
+    private Main(List<ConnectionConfiguration> monitorConfiguration) {
+        JTabbedPane mainPane = new JTabbedPane();
         this.getContentPane().add(mainPane);
 
         for (ConnectionConfiguration connectionConfiguration : monitorConfiguration) {
@@ -56,7 +55,7 @@ public class Main extends JFrame {
 
     public static void main(String[] args) {
         try {
-            MonitorConfiguration monitorConfiguration = null;
+            MonitorConfiguration monitorConfiguration;
             
             if (args.length != 1) {
                 System.err.println("Missing config file.");

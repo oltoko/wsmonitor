@@ -53,11 +53,11 @@ public class PrettyPrinter {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            if (in.length > 0)
+            if (in != null && in.length > 0)
                 return new String(in);
         }
 
-        if (in.length > 0 && baos.toString().length() < 0)
+        if (in != null && in.length > 0 && baos.toString().length() < 0)
             return new String(in);
         else
             return baos.toString();
@@ -75,7 +75,7 @@ public class PrettyPrinter {
         for (int i = 0; i < in.length;) {
             Dump dump = new Dump();
             baos.reset();
-            pw.printf("%06x", new Integer(i));
+            pw.printf("%06x", i);
             pw.flush();
 
             dump.setAddress(baos.toString());
