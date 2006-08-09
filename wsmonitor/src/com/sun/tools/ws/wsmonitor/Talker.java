@@ -189,8 +189,9 @@ public class Talker extends Thread {
                         processRequestPreamble(baos.toString());
                         preamble = false;
                     } else {
-                        StringTokenizer st = new StringTokenizer(baos.toString(), ":");
-                        headersTable.put(st.nextToken(), st.nextToken());
+                        String str = baos.toString();
+                        StringTokenizer st = new StringTokenizer(str, ":");
+                        headersTable.put(st.nextToken(), str.substring(str.indexOf(":")+2, str.length()));
                     }
                     list.add(baos.toString());
                     baos.reset();
@@ -343,7 +344,7 @@ public class Talker extends Thread {
      * Process Content-Type header to extract the content type of the body
      *
      * @param line
-     * @return
+     * @return content type of the body
      */
     String processContentType(String line) {
         return ((line.indexOf("text/xml") != -1) || (line.indexOf("application/soap+xml") != -1) || (line.indexOf(
