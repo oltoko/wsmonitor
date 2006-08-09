@@ -21,11 +21,13 @@
  *
  * Copyright 2006 Sun Microsystems Inc. All Rights Reserved
  -->
-        
-<monitor xmlns="http://java.sun.com/xml/ns/jax-ws/ri/config/monitor">
+
+<monitor xmlns="http://java.sun.com/xml/ns/jax-ws/ri/config/monitor"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="config.xsd">
     <connection
         name="4040 --> localhost:8080"
-        description="Fast Demo"
+        description="4040->8080"
         listenPort="4040"
         targetHost="localhost"
         targetPort="8080"/>
