@@ -164,10 +164,9 @@ public class Talker extends Thread {
         byte[] oneByte = new byte[1];
         boolean readAhead = false;
         boolean preamble = true;
-        int read = 0;
         while (true) {
             if (!readAhead) {
-                read = is.read(oneByte);
+                is.read(oneByte);
             } else
                 readAhead = false;
             // do not write \r \n
@@ -179,9 +178,12 @@ public class Talker extends Thread {
             }
             if (oneByte[0] == 10) {
                 readAhead = true;
-                read = is.read(oneByte);
+                is.read(oneByte);
                 if (oneByte[0] == 13) {
                     is.read(oneByte);       // read the "10"
+                    processHeader(baos);
+                    list.add(baos.toString());
+                    baos.reset();
                     break;
                 } else {
                     baos.flush();
@@ -189,9 +191,7 @@ public class Talker extends Thread {
                         processRequestPreamble(baos.toString());
                         preamble = false;
                     } else {
-                        String str = baos.toString();
-                        StringTokenizer st = new StringTokenizer(str, ":");
-                        headersTable.put(st.nextToken(), str.substring(str.indexOf(":")+2, str.length()));
+                        processHeader(baos);
                     }
                     list.add(baos.toString());
                     baos.reset();
@@ -200,7 +200,7 @@ public class Talker extends Thread {
             }
         }
 
-        String[] stringArray = (String[]) list.toArray(new String[0]);
+        String[] stringArray = list.toArray(new String[0]);
         StringBuffer buffer = new StringBuffer();
         for (int i = 0; i < stringArray.length; i++) {
             if (stringArray[i].toLowerCase().startsWith("Content-Length".toLowerCase()))
@@ -212,6 +212,12 @@ public class Talker extends Thread {
                 buffer.append(stringArray[i] + "\n");
         }
         return buffer.toString();
+    }
+
+    private void processHeader(ByteArrayOutputStream baos) {
+        String str = baos.toString();
+        StringTokenizer st = new StringTokenizer(str, ":");
+        headersTable.put(st.nextToken(), str.substring(str.indexOf(":")+2, str.length()));
     }
 
     private void processRequestPreamble(String line) {
