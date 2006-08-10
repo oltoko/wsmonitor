@@ -45,6 +45,12 @@ if [ -z "$WSMONITOR_HOME" ]; then
     done
 
     WSMONITOR_HOME=`dirname "$PRG"`/..
+
+    # make it fully qualified
+    cd "$saveddir"
+    WSMONITOR_HOME=`cd "$WSMONITOR_HOME" && pwd`
+
+    cd $saveddir
 fi
 
 CLASSPATH=$WSMONITOR_HOME/lib/wsmonitor.jar:$WSMONITOR_HOME/lib/jsr173_api.jar:$WSMONITOR_HOME/lib/sjsxp.jar:$WSMONITOR_HOME/lib/args4j-2.0.6.jar
