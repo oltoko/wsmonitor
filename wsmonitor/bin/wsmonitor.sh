@@ -27,7 +27,27 @@ if [ -z "$JAVA_HOME" ]; then
     exit 1
 fi
 
-CLASSPATH=../lib/wsmonitor.jar:../lib/jsr173_api.jar:../lib/sjsxp.jar
+if [ -z "$WSMONITOR_HOME" ]; then
+    PRG=$0
+    progname=`basename $0`
+    saveddir=`pwd`
+
+    cd `dirname $PRG`
+
+    while [ -h "$PRG" ] ; do
+        ls=`ls -ld "$PRG"`
+        link=`expr "$ls" : '.*-> \(.*\)$'`
+        if expr "$link" : '.*/.*' > /dev/null; then
+            PRG="$link"
+        else
+            PRG="`dirname $PRG`/$link"
+        fi
+    done
+
+    WSMONITOR_HOME=`dirname "$PRG"`/..
+fi
+
+CLASSPATH=$WSMONITOR_HOME/lib/wsmonitor.jar:$WSMONITOR_HOME/lib/jsr173_api.jar:$WSMONITOR_HOME/lib/sjsxp.jar:$WSMONITOR_HOME/lib/args4j-2.0.6.jar
 
 $JAVA_HOME/bin/java -cp "$CLASSPATH" com.sun.tools.ws.wsmonitor.Main "$@"
 
