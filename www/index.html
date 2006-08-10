@@ -7,7 +7,15 @@
 <body bgcolor="#FFFFFF" text="#000000">
 <p> wsmonitor (Web Services Monitor) is a light-weight SOAP and HTTP traffic
 monitor. This tool intercepts and logs the SOAP messages and HTTP headers between a sender and a receiver and displays them
-in a graphical user interface.&nbsp;</p>
+nicely formatted in a graphical user interface.&nbsp;</p>
+<h2>Key Features</h2>
+<ul>
+  <li>Displays XML- formatted SOAP message</li>
+  <li>Separate tabs for SOAP and HTTP traffic</li>
+  <li>Easy to use</li>
+  <li>Light weight</li>
+  <li>Transport-level data capture</li>
+</ul>
 <h2> How does it work ?</h2>
 <p>The tool uses <a href="http://en.wikipedia.org/wiki/Port_forwarding">port-forwarding</a>
 to capture the traffic. In simple language, when the tool is started it listens
@@ -26,16 +34,36 @@ directory. Each port forward opens up as a new tab on the wsmonitor display
 window.</p>
 <p>The name &quot;wsmonitor&quot; is aligned with <a href="https://jax-ws.dev.java.net/jax-ws-20-fcs/docs/wsimport.html">wsimport</a>
 and <a href="https://jax-ws.dev.java.net/jax-ws-20-fcs/docs/wsgen.html">wsgen</a>
-tools available in <a href="http://jax-ws.dev.java.net">JAX-WS</a>.</p>
-<h2>Key Features</h2>
-<ul>
-  <li>Easy to use</li>
-  <li>Light weight</li>
-  <li>Displays formatted SOAP message</li>
-  <li>Easily configurable</li>
-</ul>
-<p>Download it and use it. Send comments to <a href="mailto:users@wsmonitor.dev.java.net">users@wsmonitor.dev.java.net</a>.</p>
-<p>TO DO</p>
+tools available in <a href="http://jax-ws.dev.java.net">JAX-WS</a>. Even though
+the name is aligned with JAX-WS tools, this tool can be used by any Web services
+stack.</p>
+<h2>How can I use it ?</h2>
+<ol>
+  <li><a href="https://wsmonitor.dev.java.net/servlets/ProjectDocumentList?folderID=5758&amp;expandFolder=5758&amp;folderID=5758https://wsmonitor.dev.java.net/servlets/ProjectDocumentList?folderID=5758&amp;expandFolder=5758&amp;folderID=5758">Download</a>
+    the distribution.</li>
+  <li>Install by giving the following command:<br>
+    <br>
+    <code>java -jar wsmonitor-installer-XX.jar</code><br>
+    <br>
+    where <code>XX</code> is the version number of the tool. This command will
+    extract the tool in &quot;wsmonitor&quot; directory in your current
+    directory.</li>
+  <li>Invoke the tool by giving the following command:<br>
+    <br>
+    <code>wsmonitor/bin/wsmonitor.[bat | sh]</code><br>
+    <br>
+    This start the tool listening at <code>localhost:4040</code> and forwarding
+    to <code>localhost:8080</code>.</li>
+  <li>To invoke with a config file specifying non-default port forwards, use the
+    following command:<br>
+    <br>
+    <code>wsmonitor/bin/wsmonitor.[bat | sh] config.xml</code></li>
+  <li>To invoke the tool in verbose, use the following command:<br>
+    <br>
+    <code>wsmonitor/bin/wsmonitor.[bat | sh] -verbose</code></li>
+</ol>
+<p> Send comments to <a href="mailto:users@wsmonitor.dev.java.net">users@wsmonitor.dev.java.net</a>.</p>
+<h2>TO DO</h2>
 <ol>
   <li>Provide a <a href="http://java.sun.com/products/javawebstart/">Web-version</a>
     of the tool.</li>
