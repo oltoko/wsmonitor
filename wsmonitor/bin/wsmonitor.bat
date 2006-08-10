@@ -22,8 +22,8 @@ REM
 REM Copyright 2006 Sun Microsystems Inc. All Rights Reserved
 REM
 
-set MONITOR_BIN_HOME=%~dp0
-echo %MONITOR_BIN_HOME%
+set WSMONITOR_HOME=%~dp0..
+echo %WSMONITOR_HOME%
 
 if defined JAVA_HOME goto CHECK_CMD_LINE_ARGS
 echo ERROR: Set JAVA_HOME to the path where the J2SE (JDK) is installed (e.g., D:\jdk1.5)
@@ -51,7 +51,7 @@ goto SET_ARGS
 
 setlocal
 
-set CLASSPATH=%MONITOR_BIN_HOME%..\lib\wsmonitor.jar;%MONITOR_BIN_HOME%..\lib\jsr173_api.jar;%MONITOR_BIN_HOME%..\lib\sjsxp.jar;%MONITOR_BIN_HOME%..\lib\args4j-2.0.6.jar;
+set CLASSPATH=%WSMONITOR_HOME%\lib\wsmonitor.jar;%WSMONITOR_HOME%\lib\jsr173_api.jar;%WSMONITOR_HOME%\lib\sjsxp.jar;%WSMONITOR_HOME%\lib\args4j-2.0.6.jar;
 
 %JAVA_HOME%\bin\java %DEBUG_OPTIONS% -cp "%CLASSPATH%" com.sun.tools.ws.wsmonitor.Main %CMD_LINE_ARGS%
 
