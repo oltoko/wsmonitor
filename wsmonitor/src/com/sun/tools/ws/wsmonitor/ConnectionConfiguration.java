@@ -28,7 +28,7 @@ class ConnectionConfiguration {
     private String name;
     private String description;
     private String listenPort;
-    private String targetHost;
+    private String targetHost = "localhost";
     private String targetPort;
 
     public String getName() {
