@@ -53,7 +53,7 @@ setlocal
 
 set CLASSPATH=%WSMONITOR_HOME%\lib\wsmonitor.jar;%WSMONITOR_HOME%\lib\jsr173_api.jar;%WSMONITOR_HOME%\lib\sjsxp.jar;%WSMONITOR_HOME%\lib\args4j-2.0.6.jar;
 
-%JAVA_HOME%\bin\java %DEBUG_OPTIONS% -cp "%CLASSPATH%" com.sun.tools.ws.wsmonitor.Main %CMD_LINE_ARGS%
+"%JAVA_HOME%"\bin\java %DEBUG_OPTIONS% -cp "%CLASSPATH%" com.sun.tools.ws.wsmonitor.Main %CMD_LINE_ARGS%
 
 endlocal
 
