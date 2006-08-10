@@ -98,7 +98,7 @@
         <copy todir="${image.dir}/bin">
             <fileset dir="bin" includes="wsmonitor.*"/>
         </copy>
-        <chmod perm="+x" file="${build.dir}/bin/*.sh"/>
+        <chmod perm="+x" file="${image.dir}/bin/*.sh"/>
 
         <copy todir="${image.dir}/etc">
             <fileset dir="etc" includes="config.xml"/>
