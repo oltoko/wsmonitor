@@ -22,12 +22,14 @@
  * Copyright 2006 Sun Microsystems Inc. All Rights Reserved
  -->
 
-<project name="HTTP Traffic Monitor" default="main" basedir=".">
-    <property environment="env"/>
+<project name="wsmonitor" default="main" basedir=".">
+    <property name="name" value="${ant.project.name}"/>
     <property name="lib.dir" value="${basedir}/lib"/>
     <property name="build.dir" value="${basedir}/build"/>
     <property name="dist.dir" value="${basedir}/dist"/>
     <property name="image.dir" value="${dist.dir}/image/wsmonitor"/>
+    <property name="license" value="CDDLv1.0.1.txt"/>
+    <property name="version" value="1.0"/>
 
     <property name="compile.debug" value="true"/>
     <property name="compile.deprecation" value="false"/>
@@ -44,7 +46,20 @@
         </fileset>
     </path>
 
+    <taskdef name="installerBuilder"
+        classname="com.sun.tools.xjc.installer.builder.BuilderTask">
+        <classpath>
+            <fileset dir="${lib.dir}" includes="installer-builder.jar, sfx4j-1.0.jar"/>
+        </classpath>
+    </taskdef>
+
     <target name="main" depends="image"/>
+
+    <target name="dist" depends="image">
+        <zip destfile="${dist.dir}/${name}.zip" basedir="${dist.dir}/image" includes="${name}/**"/>
+        <installerBuilder classFile="${dist.dir}/${name}-installer-${version}.jar" licenseFile="${license}"
+                          zipFile="${dist.dir}/${name}.zip"/>
+    </target>
 
     <target name="image" depends="compile">
         <mkdir dir="${image.dir}"/>
@@ -57,9 +72,14 @@
         </jar>
 
         <antcall target="copy-scripts"/>
-        <!-- copy jars -->
+        <copy todir="${image.dir}" file="${license}"/>
+        <copy todir="${image.dir}" file="readme.txt"/>
         <copy todir="${image.dir}/lib">
-            <fileset dir="${lib.dir}" includes="*.jar"/>
+            <fileset dir="${lib.dir}">
+                <include name="*.jar"/>
+                <exclude name="installer-builder.jar"/>
+                <exclude name="sfx4j-1.0.jar"/>
+            </fileset>
         </copy>
     </target>
 
