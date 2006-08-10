@@ -92,9 +92,9 @@ public class MonitorConfigurationParser {
         System.out.println(reader.getName());
         System.out.println(reader.getLocation());
         int count = reader.getAttributeCount();
-        if (count < 4)
+        if (count < 3)
             throw new XMLStreamException(
-                    "Atleast name, listenPort, targetHost, targetPort attributes required");
+                    "Atleast name, listenPort, targetPort attributes required");
 
         for (int i = 0; i < count; i++) {
             String name = reader.getAttributeName(i).getLocalPart();
