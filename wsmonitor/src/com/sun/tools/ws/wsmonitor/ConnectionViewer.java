@@ -44,19 +44,29 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import static com.sun.tools.ws.wsmonitor.ConnectionMetadata.XML_ENCODING;
+import static com.sun.tools.ws.wsmonitor.ConnectionMetadata.FAST_ENCODING;
 import static com.sun.tools.ws.wsmonitor.Main.FRAME_WIDTH;
 
 /**
  * @author Arun Gupta
+ *
+ * 08/21/06 Joe Wang: added FI support.
  */
 public class ConnectionViewer {
     private ConnectionModel connectionModel = null;
     private JSplitPane soapPane = null;
     private JSplitPane headersPane = null;
+    private JSplitPane fiPane = null;
+    private JTabbedPane mainPane = null;
+    private JTabbedPane dataPane = null;
+    private Listener listener = null;
+    int frameWidth  = 500;
 
 
     public ConnectionViewer(JTabbedPane mainPane, ConnectionConfiguration connConfig) {
-        JTabbedPane mainPane1 = mainPane;
+        this.mainPane = mainPane;
+        frameWidth = mainPane.getWidth();
+
         JPanel panel = new JPanel(new BorderLayout());
 
         JPanel topPanel = new JPanel(new GridLayout(1,3));
@@ -73,7 +83,7 @@ public class ConnectionViewer {
         connectionTable.setRowSelectionAllowed(true);
         connectionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         connectionTable.setShowGrid(true);
-        connectionTable.setPreferredScrollableViewportSize(new Dimension(FRAME_WIDTH, 100));
+        connectionTable.setPreferredScrollableViewportSize(new Dimension(frameWidth, 100));
         initColumnSizes(connectionTable);
         ListSelectionModel listSelectionModel = connectionTable.getSelectionModel();
         listSelectionModel.addListSelectionListener(new ListSelectionListener() {
@@ -99,16 +109,16 @@ public class ConnectionViewer {
         panel.add(midPanel, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel(new BorderLayout());
-        JTabbedPane dataPane = new JTabbedPane();
-        dataPane.setPreferredSize(new Dimension(500,500));
-        soapPane = createTextPanel();
-        dataPane.addTab("SOAP", null, soapPane, "SOAP");
+        dataPane = new JTabbedPane();
+        dataPane.setPreferredSize(new Dimension(frameWidth/2,frameWidth/2));
         headersPane = createTextPanel();
         dataPane.addTab("HTTP Headers", null, headersPane, "HTTP Headers");
+        soapPane = createTextPanel();
+        dataPane.addTab("SOAP", null, soapPane, "SOAP");
         bottomPanel.add(dataPane, BorderLayout.CENTER);
         panel.add(bottomPanel, BorderLayout.SOUTH);
 
-        mainPane.addTab(connConfig.getName(), null, panel, connConfig.getDescription());
+        mainPane.addTab(connConfig.getName(), null, panel, connConfig.getDescription());        
     }
 
     private void initColumnSizes(JTable table) {
@@ -156,10 +166,11 @@ public class ConnectionViewer {
         JScrollPane responseScrollPane = new JScrollPane(responseText);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, requestScrollPane, responseScrollPane);
-        splitPane.setDividerLocation(FRAME_WIDTH/2);
+        splitPane.setDividerLocation(frameWidth/2);
         splitPane.setVisible(true);
 
         return splitPane;
+        
     }
 
     void update(ConnectionMetadata m) {
@@ -179,6 +190,19 @@ public class ConnectionViewer {
     private void updateHeaderAndBodyUI(ConnectionMetadata cm) {
         updateRequestUI(cm);
         updateResponseUI(cm);
+    }
+
+    void updateFIPane(int index, byte[] in) {
+        if (fiPane == null) {
+            fiPane = createTextPanel();
+            dataPane.addTab("FastInfoset", null, fiPane, "FI to XML");
+        }
+        
+        JViewport tmp = (JViewport) ((JScrollPane) fiPane.getComponent(index)).getComponent(0);
+        JTextArea fitoxmlRequest = (JTextArea) tmp.getView();
+        String body = PrettyPrinter.FIToXML(in);
+        fitoxmlRequest.setText(body);
+        
     }
     
     private void updateRequestUI(ConnectionMetadata cm) {
@@ -211,6 +235,15 @@ public class ConnectionViewer {
             System.out.println("***** Displaying request body");
             System.out.println(body);
         }
+        
+        //FI to XML request panel
+        if (Main.FI_SUPPORT) {
+            if (cm.getRequestEncoding() != null && cm.getRequestEncoding().equals(FAST_ENCODING)) 
+            {
+                updateFIPane(0, cm.getRequestBody());
+            }            
+        }        
+        
     }
     
     private void updateResponseUI(ConnectionMetadata cm) {
@@ -232,15 +265,28 @@ public class ConnectionViewer {
         tmp = (JViewport) ((JScrollPane) soapPane.getRightComponent()).getComponent(0);
         JTextArea responseMessageText = (JTextArea) tmp.getView();
         String body;
-        if (cm.getResponseEncoding().equals(XML_ENCODING))
-            body = PrettyPrinter.convertToXML(cm.getResponseBody());
-        else
-            body = PrettyPrinter.convertToBinary(cm.getResponseBody());
+
+        if (cm.getResponseEncoding() == null) {
+            body = new String(cm.getResponseBody());
+        } else {
+            if (cm.getResponseEncoding().equals(XML_ENCODING))
+                body = PrettyPrinter.convertToXML(cm.getResponseBody());
+            else
+                body = PrettyPrinter.convertToBinary(cm.getResponseBody());
+        }
         responseMessageText.setText(body);
         if (logger.isLoggable(CONFIG)) {
             System.out.println("***** Displaying response body");
             System.out.println(body);
         }
+        
+        //FI to XML request panel
+        if (Main.FI_SUPPORT) {
+            if (cm.getResponseEncoding() != null && cm.getResponseEncoding().equals(FAST_ENCODING)) 
+            {
+                updateFIPane(1, cm.getResponseBody());
+            }            
+        }        
     }
 
     public void addListener(Listener l) {
