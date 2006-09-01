@@ -21,6 +21,7 @@
  */
 package com.sun.tools.ws.wsmonitor;
 
+import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
@@ -28,10 +29,15 @@ import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.sax.SAXSource;
 
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 import org.w3c.dom.Document;
+import java.lang.reflect.*;
 
 /**
  * @author Arun Gupta
@@ -112,6 +118,32 @@ public class PrettyPrinter {
         return buffer.toString();
     }
 
+    public static String FIToXML(byte[] in) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            if (in != null) {
+                ByteArrayInputStream bais = new ByteArrayInputStream(in);
+
+                Transformer tx = TransformerFactory.newInstance().newTransformer();
+//                tx.transform(new FastInfosetSource(bais), new StreamResult(baos));
+                Constructor c = Main.fiSource.getConstructor(InputStream.class);
+                Object source = c.newInstance(new Object[]{bais});
+                tx.transform((SAXSource)source, new StreamResult(baos));
+                
+                baos.flush();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (in.length > 0 && baos.toString().length() < 0)
+            return new String(in);
+        else {
+            //return baos.toString();
+            return convertToXML(baos.toByteArray());
+        }
+        
+    }
+        
     static final class Dump {
         private String address;
         private String data;

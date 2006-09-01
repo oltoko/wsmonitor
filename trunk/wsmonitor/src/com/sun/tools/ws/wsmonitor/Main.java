@@ -21,6 +21,7 @@
  */
 package com.sun.tools.ws.wsmonitor;
 
+import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.io.FileInputStream;
 import java.util.List;
@@ -32,26 +33,52 @@ import org.kohsuke.args4j.CmdLineParser;
 
 /**
  * @author Arun Gupta
+ * 08/21/06 Joe Wang: Added FastInfoset Support;
+ *                    Fit the frame with a smaller resolution and position the window in the middle of the screen
  */
 public class Main extends JFrame {
-    static final int FRAME_WIDTH = 1200;
     static MainOptions options;
+    private static JTabbedPane mainPane = null;
+    static final int FRAME_WIDTH = 1024;
+    static final int FRAME_HEIGHT = 768;
+    static Class fiSource = null;
+    static boolean FI_SUPPORT = false;
+    static {
+        try {  
+            fiSource = Class.forName("org.jvnet.fastinfoset.FastInfosetSource");
+            FI_SUPPORT = true;
+        }   
+        catch ( ClassNotFoundException e ) {
+            fiSource = null;
+        } 
+        
+    }
 
-    private Main(List<ConnectionConfiguration> monitorConfiguration) {
-        JTabbedPane mainPane = new JTabbedPane();
+    private Main(List<ConnectionConfiguration> monitorConfiguration) {        
+        //frame size
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int frameWidth = screenSize.width < FRAME_WIDTH ? screenSize.width : FRAME_WIDTH;
+        int frameHeight = screenSize.height < FRAME_HEIGHT ? screenSize.height : FRAME_HEIGHT;
+        
+        mainPane = new JTabbedPane();
         this.getContentPane().add(mainPane);
+        this.setTitle("JAX-WS SOAP Monitor");
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //size and location
+        this.setPreferredSize(new Dimension(frameWidth,frameHeight));
+        this.setSize(new Dimension(frameWidth,frameHeight));
+        this.setLocation((screenSize.width-getWidth())/2,(screenSize.height-getHeight())/2);        
+        this.setResizable(true);
 
+        //mainPane.setPreferredSize(new Dimension(frameWidth,frameHeight));
+        mainPane.setSize(frameWidth,frameHeight);
         for (ConnectionConfiguration connectionConfiguration : monitorConfiguration) {
             ConnectionViewer v = new ConnectionViewer(mainPane, connectionConfiguration);
             Listener l = new Listener(v, connectionConfiguration);
             v.addListener(l);
         }
-
-        this.setTitle("JAX-WS SOAP Monitor");
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setPreferredSize(new Dimension(FRAME_WIDTH,700));
-        this.setResizable(true);
+        
         this.pack();
         this.setVisible(true);
     }
