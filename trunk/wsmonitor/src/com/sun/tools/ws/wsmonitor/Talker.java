@@ -269,8 +269,10 @@ public class Talker extends Thread {
         String[] header = headerList.toArray(new String[0]);
         metadata.setResponsePreamble(header[0]);
         StringBuffer responseHeader = new StringBuffer();
-        for (String h : header)
+        for (String h : header) {
             responseHeader.append(h + "\r\n");
+            log(h);
+        }
 
         return responseHeader.toString();
     }
@@ -433,7 +435,7 @@ public class Talker extends Thread {
     }
 
     private void log(String msg) {
-        if (Main.options.isVerbose())
+        if (Main.cmdlineOptions.isVerbose())
             System.out.println(new Date() + ": " + msg);
     }
 }

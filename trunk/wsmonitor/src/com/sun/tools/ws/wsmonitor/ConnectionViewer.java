@@ -26,8 +26,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import static java.util.logging.Level.CONFIG;
-import java.util.logging.Logger;
+import java.util.Date;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -43,9 +42,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import static com.sun.tools.ws.wsmonitor.ConnectionMetadata.XML_ENCODING;
 import static com.sun.tools.ws.wsmonitor.ConnectionMetadata.FAST_ENCODING;
-import static com.sun.tools.ws.wsmonitor.Main.FRAME_WIDTH;
+import static com.sun.tools.ws.wsmonitor.ConnectionMetadata.XML_ENCODING;
 
 /**
  * @author Arun Gupta
@@ -83,6 +81,7 @@ public class ConnectionViewer {
         connectionTable.setRowSelectionAllowed(true);
         connectionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         connectionTable.setShowGrid(true);
+        connectionTable.setMinimumSize(new Dimension(frameWidth, 100));
         connectionTable.setPreferredScrollableViewportSize(new Dimension(frameWidth, 100));
         initColumnSizes(connectionTable);
         ListSelectionModel listSelectionModel = connectionTable.getSelectionModel();
@@ -209,16 +208,12 @@ public class ConnectionViewer {
         if (cm == null)
             return;
 
-        Logger logger = Logger.getAnonymousLogger();
-
         // request headers panel
         JViewport tmp = (JViewport) ((JScrollPane) headersPane.getLeftComponent()).getComponent(0);
         JTextArea requestHeadersText = (JTextArea) tmp.getView();
         requestHeadersText.setText(cm.getRequestHeader());
-        if (logger.isLoggable(CONFIG)) {
-            System.out.println("***** Displaying request headers");
-            System.out.println(cm.getRequestHeader());
-        }
+        log("***** Displaying request headers");
+        log(cm.getRequestHeader());
 
         // SOAP request panel
         tmp = (JViewport) ((JScrollPane) soapPane.getLeftComponent()).getComponent(0);
@@ -231,11 +226,9 @@ public class ConnectionViewer {
             body = PrettyPrinter.convertToBinary(cm.getRequestBody());
         
         requestMessageText.setText(body);
-        if (logger.isLoggable(CONFIG)) {
-            System.out.println("***** Displaying request body");
-            System.out.println(body);
-        }
-        
+        log("***** Displaying request body");
+        log(body);
+
         //FI to XML request panel
         if (Main.FI_SUPPORT) {
             if (cm.getRequestEncoding() != null && cm.getRequestEncoding().equals(FAST_ENCODING)) 
@@ -243,23 +236,18 @@ public class ConnectionViewer {
                 updateFIPane(0, cm.getRequestBody());
             }            
         }        
-        
     }
     
     private void updateResponseUI(ConnectionMetadata cm) {
         if (cm == null)
             return;
         
-        Logger logger = Logger.getAnonymousLogger();
-
         // response headers panel
         JViewport tmp = (JViewport) ((JScrollPane) headersPane.getRightComponent()).getComponent(0);
         JTextArea responseHeadersText = (JTextArea) tmp.getView();
         responseHeadersText.setText(cm.getResponseHeader());
-        if (logger.isLoggable(CONFIG)) {
-            System.out.println("***** Displaying response headers");
-            System.out.println(cm.getResponseHeader());
-        }
+        log("***** Displaying response headers");
+        log(cm.getResponseHeader());
 
         // SOAP response panel
         tmp = (JViewport) ((JScrollPane) soapPane.getRightComponent()).getComponent(0);
@@ -275,11 +263,9 @@ public class ConnectionViewer {
                 body = PrettyPrinter.convertToBinary(cm.getResponseBody());
         }
         responseMessageText.setText(body);
-        if (logger.isLoggable(CONFIG)) {
-            System.out.println("***** Displaying response body");
-            System.out.println(body);
-        }
-        
+        log("***** Displaying response body");
+        log(body);
+
         //FI to XML request panel
         if (Main.FI_SUPPORT) {
             if (cm.getResponseEncoding() != null && cm.getResponseEncoding().equals(FAST_ENCODING)) 
@@ -290,7 +276,7 @@ public class ConnectionViewer {
     }
 
     public void addListener(Listener l) {
-        Listener listener = l;
+        listener = l;
     }
 
     public ConnectionModel getConnectionModel() {
@@ -303,5 +289,10 @@ public class ConnectionViewer {
 
     public JSplitPane getHeadersPane() {
         return headersPane;
+    }
+
+    private void log(String msg) {
+        if (Main.cmdlineOptions.isVerbose())
+            System.out.println(new Date() + ": " + msg);
     }
 }

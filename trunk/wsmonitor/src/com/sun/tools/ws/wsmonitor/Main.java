@@ -37,7 +37,8 @@ import org.kohsuke.args4j.CmdLineParser;
  *                    Fit the frame with a smaller resolution and position the window in the middle of the screen
  */
 public class Main extends JFrame {
-    static MainOptions options;
+    static MainOptions cmdlineOptions;
+//    OptionsViewer options;
     private static JTabbedPane mainPane = null;
     static final int FRAME_WIDTH = 1024;
     static final int FRAME_HEIGHT = 768;
@@ -68,17 +69,17 @@ public class Main extends JFrame {
         //size and location
         this.setPreferredSize(new Dimension(frameWidth,frameHeight));
         this.setSize(new Dimension(frameWidth,frameHeight));
-        this.setLocation((screenSize.width-getWidth())/2,(screenSize.height-getHeight())/2);        
+        this.setLocation((screenSize.width-getWidth())/2,(screenSize.height-getHeight())/2);
         this.setResizable(true);
 
-        //mainPane.setPreferredSize(new Dimension(frameWidth,frameHeight));
         mainPane.setSize(frameWidth,frameHeight);
         for (ConnectionConfiguration connectionConfiguration : monitorConfiguration) {
             ConnectionViewer v = new ConnectionViewer(mainPane, connectionConfiguration);
             Listener l = new Listener(v, connectionConfiguration);
             v.addListener(l);
         }
-        
+//        options = new OptionsViewer(mainPane);
+
         this.pack();
         this.setVisible(true);
     }
@@ -86,11 +87,11 @@ public class Main extends JFrame {
     public static void main(String[] args) {
         try {
             MonitorConfiguration monitorConfiguration;
-            options = new MainOptions();
-            CmdLineParser argsParser = new CmdLineParser(options);
+            cmdlineOptions = new MainOptions();
+            CmdLineParser argsParser = new CmdLineParser(cmdlineOptions);
             argsParser.parseArgument(args);
 
-            if (options.getArguments().isEmpty()) {
+            if (cmdlineOptions.getArguments().isEmpty()) {
                 System.err.println("Missing config file.");
                 monitorConfiguration = usage();
             } else {
