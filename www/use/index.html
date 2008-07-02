@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head><meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Use Wsmonitor</title></head><body><h2>How can I use it ?</h2>
+<ol><li><a href="https://wsmonitor.dev.java.net/servlets/ProjectDocumentList?folderID=5758&amp;expandFolder=5758&amp;folderID=5758">Download</a>
+    the distribution (download the latest version).</li><li><a href="http://java.sun.com/javase/downloads/index.jsp">JDK 1.5.0</a> or
+    later is required. Install by giving the following command:<br>
+    <br>
+    <code>java -jar wsmonitor-installer-XX.jar</code><br>
+    <br>
+    where <code>XX</code> is the version number of the tool. This will present a
+    dialog box asking you to accept the license. Once accepted, it will
+    extract the tool in "wsmonitor" directory in your current
+    directory. All scripts are in <code>wsmonitor/bin</code>  directory and can
+    be invoked from any directory.</li><li>Invoke the tool by giving the following command:<br>
+    <br>
+    <code>wsmonitor/bin/wsmonitor.[bat | sh]</code><br>
+    <br>
+    This start the tool listening at <code>localhost:4040</code> and forwarding
+    to <code>localhost:8080</code>.</li><li>To invoke with a config file specifying non-default port forwards, use the
+    following command:<br>
+    <br>
+    <code>wsmonitor/bin/wsmonitor.[bat | sh] config.xml</code></li><li>To invoke the tool in verbose, use the following command:<br>
+    <br>
+    <code>wsmonitor/bin/wsmonitor.[bat | sh] -verbose</code></li></ol>
+<p> Send comments to <a href="mailto:users@wsmonitor.dev.java.net">users@wsmonitor.dev.java.net</a>.</p>
+<p>The wsmonitor console dumps showing HTTP headers and request/response
+messages using SOAP and Fast Infoset are shown <a href="file:///Users/arungupta/workspaces/wsmonitor/www/console-dump.html">here</a>.</p></body></html>

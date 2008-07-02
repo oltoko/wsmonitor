@@ -1,114 +1,45 @@
-<html>
-<head>
-<title>Project Home Page</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+<title>Project Home Page</title><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
   <style>
     .axial {
       display: none;
     }
-  </style>
-</head>
-
-<body bgcolor="#FFFFFF" text="#000000">
-<h2><a name="overview"></a>Overview</h2>
-<p> wsmonitor (Web Services Monitor) is a light-weight SOAP and HTTP traffic
+  </style></head>
+<body bgcolor="#ffffff" text="#000000">
+<h2>wsmonitor</h2>Web services Message Monitoring Tool<br><br><p> wsmonitor (Web Services Monitor) is a light-weight SOAP and HTTP traffic
 monitor. This tool intercepts and logs the SOAP messages and HTTP headers between a sender and a receiver and displays them
 nicely formatted in a graphical user interface.&nbsp;</p>
-<ul>
-  <li><strong>Licenses:</strong> Dual license consisting of the
+<ul><li><strong>Licenses:</strong> Dual license consisting of the
   <a href="https://glassfish.dev.java.net/public/CDDL+GPL.html">
         CDDL v1.0 and GPL v2</a>.
-  </li>
-  <li><strong>Governance:</strong> <a href="https://glassfish.dev.java.net/public/GovernancePolicy.html">Same as Project GlassFish</a></li>
-</ul>
-
-<h2><a name="features"></a>Key Features</h2>
-<ul>
-  <li>Easy to use</li>
-  <li>Light weight</li>
-  <li>Displays XML and Fast Infoset SOAP messages</li>
-  <li>Separate tabs for SOAP and HTTP traffic</li>
-  <li>Transport-level data capture</li>
-</ul>
-<h2> <a name="work"></a> How does it work ?</h2>
-<p>The tool uses <a href="http://en.wikipedia.org/wiki/Port_forwarding">port-forwarding</a>
-to capture the traffic. In simple language, when the tool is started it listens
-on <code>listenPort</code> port on localhost and brings up a display window. A
-sender originally sending request to <code>http://targetHost:targetPort/somepath</code>
-now sends the request to <code>http://localhost:listenPort/somepath</code>. The
-wsmonitor then forwards the request received at <code>localhost:listenPort</code>
-to <code>targetHost:targetPort</code>., without any alteration of the message.
-In between, it captures all the inbound and outbound SOAP and HTTP traffic and
-displays in a nicely formatted way in the wsmonitor window.<br>
-<br>
-The wsmonitor listen port, target host and target port are specified in an XML-based configuration file. In the absence of this configuration file, a<br>
-default value of "4040" for listen port, "localhost" for target host, "8080" for target port is assumed.
-A sample config file, along with it's schema, is available in the <code>etc</code>
-directory. Each port forward opens up as a new tab on the wsmonitor display
-window.</p>
-<p>The name &quot;wsmonitor&quot; is aligned with <a href="https://jax-ws.dev.java.net/jax-ws-20-fcs/docs/wsimport.html">wsimport</a>
-and <a href="https://jax-ws.dev.java.net/jax-ws-20-fcs/docs/wsgen.html">wsgen</a>
-tools available in <a href="http://jax-ws.dev.java.net">JAX-WS</a>. Even though
-the name is aligned with JAX-WS tools, this tool can be used with any Web services
-stack.</p>
-<h2><a name="use"></a>How can I use it ?</h2>
-<ol>
-  <li><a href="https://wsmonitor.dev.java.net/servlets/ProjectDocumentList?folderID=5758&amp;expandFolder=5758&amp;folderID=5758">Download</a>
-    the distribution (download the latest version).</li>
-  <li><a href="http://java.sun.com/javase/downloads/index.jsp">JDK 1.5.0</a> or
-    later is required. Install by giving the following command:<br>
-    <br>
-    <code>java -jar wsmonitor-installer-XX.jar</code><br>
-    <br>
-    where <code>XX</code> is the version number of the tool. This will present a
-    dialog box asking you to accept the license. Once accepted, it will
-    extract the tool in &quot;wsmonitor&quot; directory in your current
-    directory. All scripts are in <code>wsmonitor/bin</code>  directory and can
-    be invoked from any directory.</li>
-  <li>Invoke the tool by giving the following command:<br>
-    <br>
-    <code>wsmonitor/bin/wsmonitor.[bat | sh]</code><br>
-    <br>
-    This start the tool listening at <code>localhost:4040</code> and forwarding
-    to <code>localhost:8080</code>.</li>
-  <li>To invoke with a config file specifying non-default port forwards, use the
-    following command:<br>
-    <br>
-    <code>wsmonitor/bin/wsmonitor.[bat | sh] config.xml</code></li>
-  <li>To invoke the tool in verbose, use the following command:<br>
-    <br>
-    <code>wsmonitor/bin/wsmonitor.[bat | sh] -verbose</code></li>
-</ol>
-<p> Send comments to <a href="mailto:users@wsmonitor.dev.java.net">users@wsmonitor.dev.java.net</a>.</p>
-<p>The wsmonitor console dumps showing HTTP headers and request/response
-messages using SOAP and Fast Infoset are shown <a href="console-dump.html">here</a>.</p>
-<h2><a name="checkout"></a>Check out and build</h2>
-<ol>
- <li>Log into the java.net CVS repository using the following command:<br><br>
- <code>cvs -d :pserver:<your java.net id>@cvs.dev.java.net:/cvs co login</code>
- <li>Check out the sources using:<br><br>
-<code>cvs -d :pserver:<your java.net id>@cvs.dev.java.net:/cvs co wsmonitor/wsmonitor</code>
- <li>Build the workspace using:<br><br>
-<code>cd wsmonitor/wsmonitor<br>ant</code>
-</ol>
-
-<h2><a name="todo"></a>TO DO</h2>
-This is a list of upcoming features in random order:
-<ol>
-  <li>Make the tool SOAP-aware. This will allow to view only SOAP headers or
-    only SOAP body. It will be possible to view only, say, WS-A or WSS headers.</li>
-  <li>Resend a SOAP message.</li>
-  <li>Save a SOAP message on the local file system.</li>
-  <li>Provide a <a href="http://java.sun.com/products/javawebstart/">Web-version</a>
-    of the tool.</li>
-  <li>Use <a href="http://en.wikipedia.org/wiki/Proxies">Proxying</a> to capture
-    the traffic.&nbsp; </li>
-</ol>
-<p>&nbsp;</p>
-<p>Last Updated: <i><!--webbot bot="Timestamp" startspan S-Type="EDITED"
-S-Format="%B %d, %Y %I:%M %p" -->September 06, 2006 11:37 AM<!--webbot
-bot="Timestamp" i-CheckSum="51929" endspan -->
+  </li><li><strong>Governance:</strong> <a href="https://glassfish.dev.java.net/public/GovernancePolicy.html">Same as Project GlassFish</a></li></ul><br><p><i>
 </i></p>
-</body>
-</html>
-
+<div align=center>
+        <table valign=middle class=directory>
+                <tr>
+                        <td><a href="meet/index.html"><img
+src="images/visitor.gif" class=logo></a></td>
+                        <td><a href="meet/index.html">
+                        <div class=title>Meet Wsmonitor</div>
+                        <div class=description>Find out what is Wsmonitor and get started.</div>
+                        </a></td>
+                </tr>
+                <tr>
+                        <td><a href="use/index.html"><img src="images/user.gif" class=logo></a></td>
+                        <td><a href="use/index.html">
+                        <div class=title>Use Wsmonitor</div>
+                        <div class=description>See how to get more out of Wsmonitor.</div>
+                        </a></td>
+                </tr>
+                <tr>
+                        <td><a href=extend/index.html"><img src="images/developer.gif" class=logo></a></td>
+                        <td><a href="extend/index.html">
+                        <div class=title>Extend Wsmonitor</div>
+                        <div class=description>Learn how to build Wsmonitor or extend Wsmonitor by writing plugins.</div>
+                        </a></td>
+                </tr>
+        </table>
+</div>
+</body></html>
