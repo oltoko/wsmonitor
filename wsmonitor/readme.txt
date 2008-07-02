@@ -1,5 +1,5 @@
-JAX-WS WSMonitor Tool
----------------------
+Web Services Monitor Tool
+-------------------------
 
 wsmonitor (Web Services Monitor) is a light-weight SOAP and HTTP
 traffic monitor. This tool intercepts and logs the SOAP messages
@@ -12,18 +12,23 @@ in an XML-based configuration file. In the absence of this
 configuration file, a default value of "4040" for listen port, "localhost"
 for target host, "8080" for target port is assumed.
 
-To start the wsmonitor tool, go to bin directory and invoke the
-wsmonitor.bat script for windows platform and wsmonitor.sh script for
-Unix-like platform.
-
-Optionally, a configuration file may be provided to the tool as a
-command-line argument. A sample configuration file is available in etc
-directory.
-
-The tool can be run in verbose mode by specifying -verbose command-line
-option when invoking the script.
-
 The name "wsmonitor" is aligned with wsimport and wsgen tools available
 in JAX-WS.
 
+The tool logs messages using JDK logging.
+
+How to build ?
+--------------
+
+mvn assembly:assembly
+
+How to run ?
+------------
+
+java -jar wsmonitor-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+How to send comments ?
+----------------------
+
 Send comments to users@wsmonitor.dev.java.net.
+
