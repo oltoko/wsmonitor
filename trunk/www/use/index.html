@@ -1,28 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html><head><meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Use Wsmonitor</title></head>
-<body><h2>How can I use it ?</h2>The wsmonitor workspace is undergoing <a href="makeover.html">extreme makeover</a>. You can try the <a href="https://wsmonitor.dev.java.net/servlets/ProjectDocumentList?folderID=9496&amp;expandFolder=9496&amp;folderID=5758">bleeding edge builds</a> or <a href="https://wsmonitor.dev.java.net/servlets/ProjectDocumentList?folderID=5758&amp;expandFolder=5758&amp;folderID=5758">stable release</a>. <br><br>Bugs will only be fixed in the bleeding edge build. So before filing an issue, please try it with the bleeding edge build.<br><br><span style="font-weight: bold;">Bleeding Edge Build</span><br><ol><li><a href="https://wsmonitor.dev.java.net/servlets/ProjectDocumentList?folderID=9496&amp;expandFolder=9496&amp;folderID=5758">Download</a> the distribution.</li><li><a href="http://java.sun.com/javase/downloads/index.jsp">JDK 1.5.0</a> or
-    later is required. Invoke the tool by giving the following command:<br><br>java -jar wsmonitor-main-1.0-SNAPSHOT-jar-with-dependencies.jar<br><br>Currently, it only allows redirect from port 4040 -&gt; localhost:8080. Custom host/port support will soon be added.</li></ol><br><span style="font-weight: bold;">Stable Release</span>
-<ol><li><a href="https://wsmonitor.dev.java.net/servlets/ProjectDocumentList?folderID=5758&amp;expandFolder=5758&amp;folderID=5758">Download</a>
-    the distribution (download the latest version).</li><li><a href="http://java.sun.com/javase/downloads/index.jsp">JDK 1.5.0</a> or
-    later is required. Install by giving the following command:<br>
-    <br>
-    <code>java -jar wsmonitor-installer-XX.jar</code><br>
-    <br>
-    where <code>XX</code> is the version number of the tool. This will present a
-    dialog box asking you to accept the license. Once accepted, it will
-    extract the tool in "wsmonitor" directory in your current
-    directory. All scripts are in <code>wsmonitor/bin</code>  directory and can
-    be invoked from any directory.</li><li>Invoke the tool by giving the following command:<br>
-    <br>
-    <code>wsmonitor/bin/wsmonitor.[bat | sh]</code><br>
-    <br>
-    This start the tool listening at <code>localhost:4040</code> and forwarding
-    to <code>localhost:8080</code>.</li><li>To invoke with a config file specifying non-default port forwards, use the
-    following command:<br>
-    <br>
-    <code>wsmonitor/bin/wsmonitor.[bat | sh] config.xml</code></li><li>To invoke the tool in verbose, use the following command:<br>
-    <br>
-    <code>wsmonitor/bin/wsmonitor.[bat | sh] -verbose</code></li></ol>
-<p> Send comments to <a href="mailto:users@wsmonitor.dev.java.net">users@wsmonitor.dev.java.net</a>.</p>
-<p>The wsmonitor console dumps showing HTTP headers and request/response
-messages using SOAP and Fast Infoset are shown <a href="file:///Users/arungupta/workspaces/wsmonitor/www/console-dump.html">here</a>.</p><p></p></body></html>
+<body><h2>How can I use it ?</h2>The wsmonitor workspace is undergoing <a href="makeover.html">extreme makeover</a>. You can try the <a href="https://wsmonitor.dev.java.net/servlets/ProjectDocumentList?folderID=9496&amp;expandFolder=9496&amp;folderID=5758">bleeding edge build</a> or <a href="https://wsmonitor.dev.java.net/servlets/ProjectDocumentList?folderID=5758&amp;expandFolder=5758&amp;folderID=5758">stable release</a>.
+&nbsp;Bugs will only be fixed in the bleeding edge build. So before
+filing an issue, please try it with the bleeding edge build.<br><br>Let's get started!<br><ol><li>Download and Start Wsmonitor from <a href="bleeding-edge.html">Bleeding Edge</a> or <a href="stable-release.html">Stable Release</a>.</li><li>Develop a Web service using NetBeans and deploy on GlassFish as described in <a href="http://blogs.sun.com/arungupta/entry/screncast_ws7_secure_and_reliable">screencast #ws7</a>.</li><li>Override the endpoint address for the generated client by following <a href="https://metro.dev.java.net/guide/How_to_invoke_and_endpoint_by_overriding_endpoint_address_in_the_WSDL.html">these instructions</a>. The only difference in the new endpoint address is that the port number is 4040 instead of 8080.</li></ol> That's
+it, now every SOAP request message sent and response message received
+by this client is displayed in the wsmonitor console. The wsmonitor
+console dumps showing HTTP headers and request/response
+messages using SOAP and Fast Infoset are shown below.<br><br><h3>HTTP headers for a SOAP Message<img title="HTTP headers for a SOAP Message captured with Wsmonitor" style="width: 1024px; height: 278px;" alt="HTTP headers for a SOAP Message captured with Wsmonitor" src="../images/xml-http.jpg"><br></h3><br><h3>SOAP Request and Response Message<img title="SOAP Request and Response Message captured with Wsmonitor" style="width: 1024px; height: 292px;" alt="SOAP Request and Response Message captured with Wsmonitor" src="../images/xml-request.jpg"></h3><h3><br></h3><h3>HTTP Headers for a FastInfoset Message<img style="width: 1024px; height: 284px;" alt="HTTP Headers for a FastInfoset Message captured using Wsmonitor" title="HTTP Headers for a FastInfoset Message captured using Wsmonitor" src="../images/fast-http.jpg"></h3><h3><br></h3><h3>FastInfoset Request and Response Message<img style="width: 1024px; height: 298px;" alt="FastInfoset Request and Response Message captured using Wsmonitor" title="FastInfoset Request and Response Message captured using Wsmonitor" src="../images/fast-request.jpg"></h3><p> Send comments to <a href="mailto:users@wsmonitor.dev.java.net">users@wsmonitor.dev.java.net</a>.</p>
+<p></p></body></html>
