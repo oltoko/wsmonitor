@@ -1,12 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html><head><meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Extend Wsmonitor</title></head>
 <body><h2>Check out and build</h2>
-<ol><li>Log into the java.net CVS repository using the following command:<br><br>
- <code>cvs -d :pserver:<your java.net="" id="">@cvs.dev.java.net:/cvs co login
- </your></code></li><li>Check out the sources using:<br><br>
-<code>cvs -d :pserver:<your java.net="" id="">@cvs.dev.java.net:/cvs co wsmonitor/wsmonitor
- </your></code></li><li>Build the workspace using:<br><br>
-<code>cd wsmonitor/wsmonitor<br>mvn assembly:assembly</code>
+<ol><li> Check out the workspace as described <a href="https://wsmonitor.dev.java.net/source/browse/wsmonitor/">here</a>.</li>
+<li>Build the workspace using:<br><br>
+<code>cd wsmonitor/wsmonitor<br>mvn install</code>
 </li></ol>
 
 <h2><a name="todo"></a>TO DO</h2>
@@ -26,6 +23,6 @@ This is a list of upcoming features in random order:
 <li>NetBeans plugin</li>
 <li>Eclipse plugin</li>
 <li>i18n</li>
-<li>Add unit/integration tests</li>
+<li>Add unit/integration tests</li><li>Add Jersey support</li>
 </ol>
  <p>&nbsp;</p></body></html>
