@@ -125,14 +125,4 @@ public class Main extends JFrame {
             exp.printStackTrace();
         }
     }
-
-    private static MonitorConfiguration usage() {
-        MonitorConfiguration mc = new MonitorConfiguration();
-        mc.add(ConnectionConfiguration.DEFAULT_CONFIGURATION);
-
-        System.err.println("Usage: org.jvnet.wsmonitor.Main config.xml");
-        System.err.println("       Using default 4040 --> localhost:8080");
-
-        return mc;
-    }
 }
