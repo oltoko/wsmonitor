@@ -20,12 +20,12 @@ The tool logs messages using JDK logging.
 How to build ?
 --------------
 
-mvn assembly:assembly
+mvn install
 
 How to run ?
 ------------
 
-java -jar wsmonitor-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar main/target/wsmonitor-main-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 How to send comments ?
 ----------------------
