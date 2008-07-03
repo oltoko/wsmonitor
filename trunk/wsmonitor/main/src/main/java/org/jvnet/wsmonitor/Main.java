@@ -40,10 +40,10 @@ import java.awt.Dimension;
 import java.io.FileInputStream;
 import java.util.List;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
-
-import org.kohsuke.args4j.CmdLineParser;
 
 /**
  * @author Arun Gupta
@@ -52,13 +52,14 @@ import org.kohsuke.args4j.CmdLineParser;
  */
 public class Main extends JFrame {
 
-    static MainOptions cmdlineOptions;
 //    OptionsViewer options;
     private static JTabbedPane mainPane = null;
     static final int FRAME_WIDTH = 1024;
     static final int FRAME_HEIGHT = 768;
     static Class fiSource = null;
     static boolean FI_SUPPORT = false;
+    
+    private static final Logger logger = Logger.getLogger("org.jvnet.wsmonitor");
     
 
     static {
@@ -109,19 +110,13 @@ public class Main extends JFrame {
                 monitorConfiguration = new MonitorConfiguration();
                 monitorConfiguration.add(ConnectionConfiguration.DEFAULT_CONFIGURATION);
             } else {
-                cmdlineOptions = new MainOptions();
-                CmdLineParser argsParser = new CmdLineParser(cmdlineOptions);
-                argsParser.parseArgument(args);
+                if (args.length > 1) {
+                    logger.log(Level.FINE, "Redundant command-line arguments");
+                }
 
-                if (cmdlineOptions.getArguments().isEmpty()) {
-                    monitorConfiguration = new MonitorConfiguration();
-                    monitorConfiguration.add(ConnectionConfiguration.DEFAULT_CONFIGURATION);
-    //                monitorConfiguration = usage();
-                } else {
-                    FileInputStream fis = new FileInputStream(args[0]);
-                    MonitorConfigurationParser parser = new MonitorConfigurationParser();
-                    monitorConfiguration = parser.parse(fis);
-                }                
+                FileInputStream fis = new FileInputStream(args[0]);
+                MonitorConfigurationParser parser = new MonitorConfigurationParser();
+                monitorConfiguration = parser.parse(fis);
             }
 
             new Main(monitorConfiguration);

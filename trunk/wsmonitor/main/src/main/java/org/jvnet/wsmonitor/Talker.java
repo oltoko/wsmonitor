@@ -226,6 +226,7 @@ public class Talker extends Thread {
 
             if (i != stringArray.length)
                 buffer.append(stringArray[i] + "\n");
+            log(stringArray[i]);
         }
         return buffer.toString();
     }
@@ -419,6 +420,7 @@ public class Talker extends Thread {
 //                }
             } else if (
                     statusCode < 200 || (statusCode >= 303 && statusCode < 500)) {
+                log("Status Code: " + statusCode);
                 throw new MonitorTransportException("http.status.code",
                                                     statusCode, getStatusMessage(httpConnection));
             } else if (statusCode >= 500) {
@@ -454,7 +456,7 @@ public class Talker extends Thread {
     }
 
     private void log(String msg) {
-        logger.log(Level.FINE, new Date() + ": " + msg);
+        logger.log(Level.INFO, new Date() + ": " + msg);
     }
 }
 
