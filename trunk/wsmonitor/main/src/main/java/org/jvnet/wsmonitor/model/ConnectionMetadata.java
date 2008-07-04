@@ -33,11 +33,11 @@
 * only if the new code is made subject to such option by the copyright
 * holder.
 */ 
-package org.jvnet.wsmonitor;
+package org.jvnet.wsmonitor.model;
 
 import java.util.Date;
 
-import static org.jvnet.wsmonitor.ConnectionModel.DATE_FORMAT;
+import static org.jvnet.wsmonitor.model.ConnectionModel.DATE_FORMAT;
 
 /**
  * @author Arun Gupta
@@ -56,9 +56,6 @@ public class ConnectionMetadata {
     private String responseHeader;
     private byte[] requestBody;
     private byte[] responseBody;
-
-    static final String FAST_ENCODING = "Fast";
-    static final String XML_ENCODING = "XML";
 
     public ConnectionMetadata() {
         this.id = String.valueOf(++dataId);

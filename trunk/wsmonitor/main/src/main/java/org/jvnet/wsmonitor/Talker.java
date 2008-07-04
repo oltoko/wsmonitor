@@ -35,6 +35,7 @@
 */ 
 package org.jvnet.wsmonitor;
 
+import org.jvnet.wsmonitor.config.ConnectionConfiguration;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,8 +55,9 @@ import java.util.StringTokenizer;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static org.jvnet.wsmonitor.ConnectionMetadata.FAST_ENCODING;
-import static org.jvnet.wsmonitor.ConnectionMetadata.XML_ENCODING;
+import org.jvnet.wsmonitor.model.ConnectionMetadata;
+import static org.jvnet.wsmonitor.Constants.FAST_ENCODING;
+import static org.jvnet.wsmonitor.Constants.XML_ENCODING;
 
 /**
  * @author Arun Gupta
@@ -398,15 +400,15 @@ public class Talker extends Thread {
                             == HttpURLConnection.HTTP_UNAUTHORIZED) {
 
                 // no soap message returned, so skip reading message and throw exception
-                throw new MonitorTransportException("http.client.unauthorized",
-                                                    httpConnection.getResponseMessage());
+//                throw new MonitorTransportException("http.client.unauthorized",
+//                                                    httpConnection.getResponseMessage());
             } else if (
                     httpConnection.getResponseCode()
                             == HttpURLConnection.HTTP_NOT_FOUND) {
 
                 // no message returned, so skip reading message and throw exception
-                throw new MonitorTransportException("http.not.found",
-                                                    httpConnection.getResponseMessage());
+//                throw new MonitorTransportException("http.not.found",
+//                                                    httpConnection.getResponseMessage());
             } else if (
                     (statusCode == HttpURLConnection.HTTP_MOVED_TEMP) ||
                             (statusCode == HttpURLConnection.HTTP_MOVED_PERM)) {
@@ -421,8 +423,8 @@ public class Talker extends Thread {
             } else if (
                     statusCode < 200 || (statusCode >= 303 && statusCode < 500)) {
                 log("Status Code: " + statusCode);
-                throw new MonitorTransportException("http.status.code",
-                                                    statusCode, getStatusMessage(httpConnection));
+//                throw new MonitorTransportException("http.status.code",
+//                                                    statusCode, getStatusMessage(httpConnection));
             } else if (statusCode >= 500) {
                 isFailure = true;
             }

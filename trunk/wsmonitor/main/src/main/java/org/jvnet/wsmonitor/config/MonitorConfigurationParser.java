@@ -33,7 +33,7 @@
 * only if the new code is made subject to such option by the copyright
 * holder.
 */ 
-package org.jvnet.wsmonitor;
+package org.jvnet.wsmonitor.config;
 
 import java.io.FileInputStream;
 
@@ -42,6 +42,7 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import org.jvnet.wsmonitor.MonitorException;
 import static org.jvnet.wsmonitor.Constants.DESCRIPTION;
 import static org.jvnet.wsmonitor.Constants.LISTEN_PORT;
 import static org.jvnet.wsmonitor.Constants.NAME;
