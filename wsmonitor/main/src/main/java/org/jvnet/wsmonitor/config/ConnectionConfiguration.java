@@ -33,12 +33,12 @@
 * only if the new code is made subject to such option by the copyright 
 * holder. 
 */ 
-package org.jvnet.wsmonitor;
+package org.jvnet.wsmonitor.config;
 
 /**
  * @author Arun Gupta
  */
-class ConnectionConfiguration {
+public class ConnectionConfiguration {
     public static final ConnectionConfiguration DEFAULT_CONFIGURATION = new ConnectionConfiguration();
     
     static {

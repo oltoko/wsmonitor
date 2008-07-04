@@ -33,21 +33,13 @@
 * only if the new code is made subject to such option by the copyright
 * holder.
 */ 
-package org.jvnet.wsmonitor;
+package org.jvnet.wsmonitor.config;
 
-import java.util.List;
+import org.jvnet.wsmonitor.*;
 import java.util.ArrayList;
-
-import org.kohsuke.args4j.Argument;
 
 /**
  * @author Arun Gupta
  */
-public class MainOptions {
-    @Argument
-    private List arguments = new ArrayList();
-
-    public List getArguments() {
-        return arguments;
-    }
+public class MonitorConfiguration extends ArrayList<ConnectionConfiguration> {
 }

@@ -35,6 +35,8 @@
 */ 
 package org.jvnet.wsmonitor;
 
+import org.jvnet.wsmonitor.config.ConnectionConfiguration;
+import org.jvnet.wsmonitor.model.ConnectionModel;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -61,8 +63,9 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import static org.jvnet.wsmonitor.ConnectionMetadata.FAST_ENCODING;
-import static org.jvnet.wsmonitor.ConnectionMetadata.XML_ENCODING;
+import org.jvnet.wsmonitor.model.ConnectionMetadata;
+import static org.jvnet.wsmonitor.Constants.FAST_ENCODING;
+import static org.jvnet.wsmonitor.Constants.XML_ENCODING;
 
 /**
  * @author Arun Gupta
@@ -162,7 +165,7 @@ public class ConnectionViewer {
         Component comp;
         int headerWidth;
         int cellWidth;
-        String[] longValues = model.columnNames;
+        String[] longValues = model.getColumnNames();
         TableCellRenderer headerRenderer =
                 table.getTableHeader().getDefaultRenderer();
 
@@ -298,12 +301,14 @@ public class ConnectionViewer {
         String body;
 
         if (cm.getResponseEncoding() == null) {
-            body = new String(cm.getResponseBody());
+            body = cm.getResponseBody().toString();
         } else {
             if (cm.getResponseEncoding().equals(XML_ENCODING))
                 body = PrettyPrinter.convertToXML(cm.getResponseBody());
-            else
+            else if (cm.getResponseEncoding().equals(FAST_ENCODING))
                 body = PrettyPrinter.convertToBinary(cm.getResponseBody());
+            else
+                body = cm.getResponseBody().toString();
         }
         responseMessageText.setText(body);
         log("***** Displaying response body");

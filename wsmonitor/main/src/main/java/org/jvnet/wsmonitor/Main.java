@@ -35,6 +35,9 @@
  */
 package org.jvnet.wsmonitor;
 
+import org.jvnet.wsmonitor.config.ConnectionConfiguration;
+import org.jvnet.wsmonitor.config.MonitorConfigurationParser;
+import org.jvnet.wsmonitor.config.MonitorConfiguration;
 import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.io.FileInputStream;

@@ -49,4 +49,7 @@ public class Constants {
     public static final String LISTEN_PORT = "listenPort";
     public static final String TARGET_HOST = "targetHost";
     public static final String TARGET_PORT = "targetPort";
+    public static final String FAST_ENCODING = "Fast";
+    public static final String XML_ENCODING = "XML";
+
 }

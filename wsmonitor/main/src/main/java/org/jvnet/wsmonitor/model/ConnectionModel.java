@@ -33,8 +33,9 @@
 * only if the new code is made subject to such option by the copyright
 * holder.
 */ 
-package org.jvnet.wsmonitor;
+package org.jvnet.wsmonitor.model;
 
+import org.jvnet.wsmonitor.*;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 
@@ -93,6 +94,10 @@ public class ConnectionModel extends AbstractTableModel {
 
     public int getColumnCount() {
         return columnNames.length;
+    }
+    
+    public String[] getColumnNames() {
+        return columnNames;
     }
 
     public Object getValueAt(int row, int col) {

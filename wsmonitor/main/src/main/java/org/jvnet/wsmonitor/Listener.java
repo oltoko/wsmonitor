@@ -35,6 +35,7 @@
 */ 
 package org.jvnet.wsmonitor;
 
+import org.jvnet.wsmonitor.config.ConnectionConfiguration;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
