@@ -374,8 +374,19 @@ public class Talker extends Thread {
      * @return content type of the body
      */
     String processContentType(String line) {
-        return ((line.indexOf("text/xml") != -1) || (line.indexOf("application/soap+xml") != -1) || (line.indexOf(
-                "application/xop+xml") != -1)) ? XML_ENCODING : FAST_ENCODING;
+        if (line.indexOf("text/xml") != -1)
+            return XML_ENCODING;
+        
+        if (line.indexOf("application/soap+xml") != -1)
+            return XML_ENCODING;
+        
+        if (line.indexOf("application/xop+xml") != -1)
+            return XML_ENCODING;
+        
+        if (line.indexOf("application/fastinfoset") != -1)
+            return FAST_ENCODING;
+        
+        return "";
     }
 
     /**
