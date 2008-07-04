@@ -298,7 +298,7 @@ public class ConnectionViewer {
         // SOAP response panel
         tmp = (JViewport) ((JScrollPane) soapPane.getRightComponent()).getComponent(0);
         JTextArea responseMessageText = (JTextArea) tmp.getView();
-        String body;
+        String body = "";
 
         if (cm.getResponseEncoding() == null) {
             body = cm.getResponseBody().toString();
@@ -307,8 +307,11 @@ public class ConnectionViewer {
                 body = PrettyPrinter.convertToXML(cm.getResponseBody());
             else if (cm.getResponseEncoding().equals(FAST_ENCODING))
                 body = PrettyPrinter.convertToBinary(cm.getResponseBody());
-            else
-                body = cm.getResponseBody().toString();
+            else {
+                if (cm.getResponseBody() != null) {
+                    body = cm.getResponseBody().toString();
+                }
+            }
         }
         responseMessageText.setText(body);
         log("***** Displaying response body");
