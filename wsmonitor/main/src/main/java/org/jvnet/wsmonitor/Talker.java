@@ -390,53 +390,22 @@ public class Talker extends Thread {
     }
 
     /**
-     * Will throw an exception instead of returning 'false' if there is no
-     * return message to be processed (i.e., in the case of an UNAUTHORIZED
-     * response from the servlet or 404 not found)
+     * Returns false if there is an error received from the endpoint
      */
     private boolean checkResponseCode(HttpURLConnection httpConnection)
             throws IOException {
         boolean isFailure = false;
         try {
-
             int statusCode = httpConnection.getResponseCode();
-//            context.setProperty(StubPropertyConstants.HTTP_STATUS_CODE,
-//                    Integer.toString(statusCode));
-            if ((httpConnection.getResponseCode()
-                    == HttpURLConnection.HTTP_INTERNAL_ERROR)) {
-                isFailure = true;
-                //added HTTP_ACCEPT for 1-way operations
-            } else if (
-                    httpConnection.getResponseCode()
-                            == HttpURLConnection.HTTP_UNAUTHORIZED) {
 
-                // no soap message returned, so skip reading message and throw exception
-//                throw new MonitorTransportException("http.client.unauthorized",
-//                                                    httpConnection.getResponseMessage());
-            } else if (
-                    httpConnection.getResponseCode()
-                            == HttpURLConnection.HTTP_NOT_FOUND) {
-
-                // no message returned, so skip reading message and throw exception
-//                throw new MonitorTransportException("http.not.found",
-//                                                    httpConnection.getResponseMessage());
-            } else if (
-                    (statusCode == HttpURLConnection.HTTP_MOVED_TEMP) ||
-                            (statusCode == HttpURLConnection.HTTP_MOVED_PERM)) {
-                isFailure = true;
-
-//                if (!redirect || (redirectCount <= 0)) {
-//                    throw new ClientTransportException("http.status.code",
-//                            new Object[]{
-//                                new Integer(statusCode),
-//                                getStatusMessage(httpConnection)});
-//                }
-            } else if (
-                    statusCode < 200 || (statusCode >= 303 && statusCode < 500)) {
-                log("Status Code: " + statusCode);
-//                throw new MonitorTransportException("http.status.code",
-//                                                    statusCode, getStatusMessage(httpConnection));
-            } else if (statusCode >= 500) {
+            if ((statusCode == HttpURLConnection.HTTP_INTERNAL_ERROR) ||
+                (statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) || 
+                (statusCode == HttpURLConnection.HTTP_NOT_FOUND) ||
+                (statusCode == HttpURLConnection.HTTP_MOVED_TEMP)||
+                (statusCode == HttpURLConnection.HTTP_MOVED_PERM) ||
+                (statusCode < 200) ||
+                (statusCode >= 303 && statusCode < 500) ||
+                (statusCode >= 500)) {
                 isFailure = true;
             }
         } catch (IOException e) {
@@ -450,22 +419,6 @@ public class Talker extends Thread {
         }
 
         return isFailure;
-
-    }
-
-    private String getStatusMessage(HttpURLConnection httpConnection)
-            throws IOException {
-        int statusCode = httpConnection.getResponseCode();
-        String message = httpConnection.getResponseMessage();
-        if (statusCode == HttpURLConnection.HTTP_CREATED
-                || (statusCode >= HttpURLConnection.HTTP_MULT_CHOICE
-                && statusCode != HttpURLConnection.HTTP_NOT_MODIFIED
-                && statusCode < HttpURLConnection.HTTP_BAD_REQUEST)) {
-            String location = httpConnection.getHeaderField("Location");
-            if (location != null)
-                message += " - Location: " + location;
-        }
-        return message;
     }
 
     private void log(String msg) {
